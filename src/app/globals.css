@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg-color: #0f172a;
@@ -12,19 +14,13 @@
   --success: #22c55e;
 }
 
-@theme {
-  --color-brand-bg: #0f172a;
-  --color-brand-card: #1e293b;
-  --color-brand-primary: #f8fafc;
-  --color-brand-secondary: #94a3b8;
-  --color-brand-accent: #0ea5e9;
-  --color-brand-accent-hover: #0284c7;
-  --color-brand-border: #334155;
-  --color-brand-error: #ef4444;
-  --color-brand-success: #22c55e;
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
 }
 
-body {
-  @apply bg-brand-bg text-brand-primary min-h-screen flex items-center justify-center p-5;
-  font-family: 'Inter', sans-serif;
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-primary min-h-screen flex items-center justify-center p-5;
+  }
 }
