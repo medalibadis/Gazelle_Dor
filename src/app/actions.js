@@ -23,7 +23,7 @@ export async function registerParticipant(formData) {
     throw new Error(result || 'Failed to submit to Google Sheets');
   }
 
-  return { success: true, message: result };
+  return { success: true, message: `SUCCESS! Sent to: ${GOOGLE_SCRIPT_URL}` };
 }
 
 export async function getParticipantInfo(id) {
