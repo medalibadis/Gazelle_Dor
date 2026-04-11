@@ -12,8 +12,8 @@ export default function Home() {
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Replace this URL with your Google Apps Script Web App URL from Step 2
-  const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // Use environment variable for the Google Script URL (set this in Vercel!)
+  const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,10 +23,10 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    if (!GOOGLE_SCRIPT_URL) {
       setStatus({ 
         type: 'error', 
-        message: 'Please configure the Google Script URL in page.js (see Step 2 of the guide).' 
+        message: 'Google Script URL is not configured. Please add NEXT_PUBLIC_GOOGLE_SCRIPT_URL to your environment variables.' 
       });
       return;
     }
