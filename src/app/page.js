@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { registerParticipant } from './actions';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -12,9 +13,6 @@ export default function Home() {
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Use environment variable for the Google Script URL (set this in Vercel!)
-  const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -22,33 +20,19 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!GOOGLE_SCRIPT_URL) {
-      setStatus({ 
-        type: 'error', 
-        message: 'Google Script URL is not configured. Please add NEXT_PUBLIC_GOOGLE_SCRIPT_URL to your environment variables.' 
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
     try {
-      console.log('Submitting to:', GOOGLE_SCRIPT_URL);
-      console.log('Data:', formData);
-      
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: new URLSearchParams(formData)
-      });
-
+      await registerParticipant(formData);
       setStatus({ type: 'success', message: 'Registration successful! Thank you.' });
       setFormData({ firstName: '', lastName: '', email: '', phone: '' });
     } catch (error) {
       console.error('Submission error:', error);
-      setStatus({ type: 'error', message: 'An error occurred. Please try again.' });
+      setStatus({ 
+        type: 'error', 
+        message: error.message || 'An error occurred. Please try again.' 
+      });
     } finally {
       setIsSubmitting(false);
     }
