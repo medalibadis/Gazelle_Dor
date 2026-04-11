@@ -17,11 +17,13 @@ export async function registerParticipant(formData) {
     body: new URLSearchParams(formData).toString(),
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to submit to Google Sheets');
+  const result = await response.text();
+  
+  if (!response.ok || result.startsWith("ERROR") || result.startsWith("DATABASE ERROR")) {
+    throw new Error(result || 'Failed to submit to Google Sheets');
   }
 
-  return { success: true };
+  return { success: true, message: result };
 }
 
 export async function getParticipantInfo(id) {
