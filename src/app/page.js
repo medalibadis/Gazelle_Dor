@@ -35,20 +35,16 @@ export default function Home() {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      // mode: 'no-cors' is essential for Google Apps Script to work with fetch
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(formData).toString()
+        mode: 'no-cors',
+        body: new URLSearchParams(formData)
       });
 
-      if (response.ok) {
-        setStatus({ type: 'success', message: 'Registration successful! Thank you.' });
-        setFormData({ firstName: '', lastName: '', email: '', phone: '' });
-      } else {
-        throw new Error('Form submission failed');
-      }
+      // Since 'no-cors' won't let us read the response, we assume success if no error is thrown
+      setStatus({ type: 'success', message: 'Registration successful! Thank you.' });
+      setFormData({ firstName: '', lastName: '', email: '', phone: '' });
     } catch (error) {
       setStatus({ type: 'error', message: 'An error occurred. Please try again.' });
     } finally {
