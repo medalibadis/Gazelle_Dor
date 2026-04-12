@@ -22,7 +22,7 @@ export async function registerParticipant(formData) {
       return { success: false, error: result || 'Google Script returned an error.' };
     }
 
-    return { success: true, message: `SUCCESS! Sent to: ${GOOGLE_SCRIPT_URL}` };
+    return { success: true, message: 'Registration successful! Thank you.' };
   } catch (error) {
     return { success: false, error: error.message || 'Network error occurred.' };
   }
