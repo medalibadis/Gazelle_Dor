@@ -24,8 +24,8 @@ export default function Home() {
     setStatus({ type: '', message: '' });
 
     try {
-      await registerParticipant(formData);
-      setStatus({ type: 'success', message: 'Registration successful! Thank you.' });
+      const result = await registerParticipant(formData);
+      setStatus({ type: 'success', message: result.message || 'Registration successful!' });
       setFormData({ firstName: '', lastName: '', email: '', phone: '' });
     } catch (error) {
       console.error('Submission error:', error);
