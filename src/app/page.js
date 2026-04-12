@@ -25,8 +25,12 @@ export default function Home() {
 
     try {
       const result = await registerParticipant(formData);
-      setStatus({ type: 'success', message: result.message || 'Registration successful!' });
-      setFormData({ firstName: '', lastName: '', email: '', phone: '' });
+      if (result.success) {
+        setStatus({ type: 'success', message: result.message || 'Registration successful!' });
+        setFormData({ firstName: '', lastName: '', email: '', phone: '' });
+      } else {
+        setStatus({ type: 'error', message: result.error || 'Registration failed.' });
+      }
     } catch (error) {
       console.error('Submission error:', error);
       setStatus({ 

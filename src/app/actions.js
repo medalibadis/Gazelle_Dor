@@ -1,29 +1,31 @@
 'use server';
 
 export async function registerParticipant(formData) {
-  // We use the server-side environment variable
-  // Supports both public and private env variable names
-  const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+  try {
+    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
 
-  if (!GOOGLE_SCRIPT_URL) {
-    throw new Error('Google Script URL not configured on server');
+    if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.startsWith('http')) {
+      return { success: false, error: 'Google Script URL is missing or invalid in Vercel settings.' };
+    }
+
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(formData).toString(),
+    });
+
+    const result = await response.text();
+    
+    if (!response.ok || result.startsWith("ERROR") || result.startsWith("DATABASE ERROR")) {
+      return { success: false, error: result || 'Google Script returned an error.' };
+    }
+
+    return { success: true, message: `SUCCESS! Sent to: ${GOOGLE_SCRIPT_URL}` };
+  } catch (error) {
+    return { success: false, error: error.message || 'Network error occurred.' };
   }
-
-  const response = await fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams(formData).toString(),
-  });
-
-  const result = await response.text();
-  
-  if (!response.ok || result.startsWith("ERROR") || result.startsWith("DATABASE ERROR")) {
-    throw new Error(result || 'Failed to submit to Google Sheets');
-  }
-
-  return { success: true, message: `SUCCESS! Sent to: ${GOOGLE_SCRIPT_URL}` };
 }
 
 export async function getParticipantInfo(id) {
