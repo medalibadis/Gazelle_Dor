@@ -8,13 +8,20 @@ export default function Home() {
     firstName: '',
     lastName: '',
     email: '',
-    phone: ''
+    phone: '+213 '
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      // Prevent deleting the prefix
+      if (!value.startsWith('+213 ')) {
+        setFormData(prev => ({ ...prev, phone: '+213 ' }));
+        return;
+      }
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -27,7 +34,7 @@ export default function Home() {
       const result = await registerParticipant(formData);
       if (result.success) {
         setStatus({ type: 'success', message: result.message || 'Registration successful!' });
-        setFormData({ firstName: '', lastName: '', email: '', phone: '' });
+        setFormData({ firstName: '', lastName: '', email: '', phone: '+213 ' });
       } else {
         setStatus({ type: 'error', message: result.error || 'Registration failed.' });
       }
