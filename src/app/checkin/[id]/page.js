@@ -14,9 +14,12 @@ export default function CheckInPage({ params }) {
   useEffect(() => {
     async function fetchInfo() {
       try {
-        const info = await getParticipantInfo(id);
-        if (!info) setError('Participant not found.');
-        else setParticipant(info);
+        const result = await getParticipantInfo(id);
+        if (result.success) {
+          setParticipant(result.data);
+        } else {
+          setError(result.error);
+        }
       } catch (err) {
         setError('Error fetching participant data.');
       } finally {
@@ -29,9 +32,13 @@ export default function CheckInPage({ params }) {
   const handleCheckIn = async () => {
     setCheckingIn(true);
     try {
-      await markAsPresent(id);
-      setSuccess(true);
-      setParticipant(prev => ({ ...prev, status: 'Present' }));
+      const result = await markAsPresent(id);
+      if (result.success) {
+        setSuccess(true);
+        setParticipant(prev => ({ ...prev, status: 'Present' }));
+      } else {
+        alert(result.error || 'Failed to check in.');
+      }
     } catch (err) {
       alert('Failed to check in. Please try again.');
     } finally {

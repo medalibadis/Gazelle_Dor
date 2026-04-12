@@ -29,34 +29,45 @@ export async function registerParticipant(formData) {
 }
 
 export async function getParticipantInfo(id) {
-  const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
-  
-  const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}`, {
-    method: 'GET',
-    cache: 'no-store'
-  });
+  try {
+    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+    
+    const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}`, {
+      method: 'GET',
+      cache: 'no-store'
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch participant info');
+    const result = await response.text();
+
+    if (!response.ok) {
+      return { success: false, error: result || 'Failed to fetch participant info' };
+    }
+
+    if (result === "Not Found") return { success: false, error: 'Participant not found in sheet.' };
+    
+    return { success: true, data: JSON.parse(result) };
+  } catch (error) {
+    return { success: false, error: error.message || 'Network error fetching data.' };
   }
-
-  const data = await response.text();
-  if (data === "Not Found") return null;
-  
-  return JSON.parse(data);
 }
 
 export async function markAsPresent(id) {
-  const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
-  
-  const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}&action=update`, {
-    method: 'GET',
-    cache: 'no-store'
-  });
+  try {
+    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+    
+    const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}&action=update`, {
+      method: 'GET',
+      cache: 'no-store'
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to update status');
+    const result = await response.text();
+
+    if (!response.ok || result !== "Updated") {
+      return { success: false, error: result || 'Failed to update status' };
+    }
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message || 'Network error updating status.' };
   }
-
-  return { success: true };
 }
