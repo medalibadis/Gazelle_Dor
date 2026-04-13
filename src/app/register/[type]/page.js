@@ -19,9 +19,9 @@ const themeMap = {
     accent: '#8b5cf6', // Purple
     bg: <EComBackground />
   },
-  revision: {
-    title: 'مراجعة BEM/BAC',
-    subtitle: 'سجل في حصص المراجعة النهائية',
+  forum: {
+    title: 'ملتقى رواد الأعمال',
+    subtitle: 'سجل في ملتقى رواد الأعمال وأصحاب المشاريع',
     accent: '#10b981', // Emerald
     bg: <RevisionBackground />
   }
@@ -37,7 +37,6 @@ export default function RegisterPage() {
     lastName: '',
     email: '',
     phone: '',
-    level: '', 
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,10 +44,6 @@ export default function RegisterPage() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSelectLevel = (level) => {
-    setFormData({ ...formData, level });
   };
 
   const handleSubmit = async (e) => {
@@ -59,7 +54,7 @@ export default function RegisterPage() {
     try {
       const result = await registerParticipant(formData, type);
       if (result.success) {
-        setMessage({ type: 'success', text: 'تم التسجيل بنجاح! ننتظرك في المراجعة.' });
+        setMessage({ type: 'success', text: 'تم التسجيل بنجاح! ننتظرك في الملتقى.' });
         setTimeout(() => router.push('/'), 3000);
       } else {
         setMessage({ type: 'error', text: result.error || 'حدث خطأ أثناء التسجيل. حاول مرة أخرى.' });
@@ -87,30 +82,6 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="w-full bg-white/5 backdrop-blur-3xl p-8 md:p-10 rounded-[3rem] border border-white/10 space-y-6 shadow-2xl animate-fade-in">
           
-          {/* Level Selection for Revision Only */}
-          {type === 'revision' && (
-            <div className="space-y-4">
-              <label className="block text-lg font-bold mr-2 text-white/80">المستوى الدراسي</label>
-              <div className="grid grid-cols-2 gap-4">
-                {['BEM', 'BAC'].map((lvl) => (
-                  <button
-                    key={lvl}
-                    type="button"
-                    onClick={() => handleSelectLevel(lvl)}
-                    className={`py-5 rounded-3xl font-black text-2xl border transition-all duration-500 hover:scale-[1.02] ${
-                      formData.level === lvl 
-                      ? 'bg-emerald-500 border-emerald-400 text-black shadow-[0_0_25px_rgba(16,185,129,0.5)]' 
-                      : 'bg-white/5 border-white/10 text-white/60 hover:border-emerald-500/50'
-                    }`}
-                  >
-                    {lvl}
-                  </button>
-                ))}
-              </div>
-              <input type="hidden" name="level" value={formData.level} required />
-            </div>
-          )}
-
           <div className="space-y-2">
             <label className="block text-lg font-bold mr-2 text-white/80">الاسم الشخصي</label>
             <input
@@ -175,7 +146,7 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={isSubmitting || (type === 'revision' && !formData.level)}
+            disabled={isSubmitting}
             className="w-full py-6 rounded-3xl font-black text-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] shadow-xl"
             style={{ 
               backgroundColor: isSubmitting ? 'transparent' : theme.accent,

@@ -6,6 +6,7 @@ const SCRIPT_URLS = {
   conference: process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
   'e-com': process.env.GOOGLE_SCRIPT_URL_CONFERENCE, // Map 'e-com' to conference sheet
   revision: process.env.GOOGLE_SCRIPT_URL_REVISION,
+  forum: process.env.GOOGLE_SCRIPT_URL_REVISION,    // Map Entrepreneurs Forum to the revision sheet
 };
 
 function getUrl(type) {

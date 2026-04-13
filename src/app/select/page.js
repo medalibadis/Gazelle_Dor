@@ -5,11 +5,11 @@ import { LBLogo, QamisBackground } from '../../components/Visuals';
 
 const categories = [
   {
-    id: 'revision',
-    title: 'مراجعة BEM/BAC',
-    description: 'حصص المراجعة النهائية المكثفة',
-    href: '/register/revision',
-    accent: 'blue'
+    id: 'forum',
+    title: 'ملتقى رواد الأعمال',
+    description: 'ملتقى خاص برواد الأعمال وأصحاب المشاريع لتبادل الخبرات',
+    href: '/register/forum',
+    accent: 'emerald'
   },
   {
     id: 'ecom',

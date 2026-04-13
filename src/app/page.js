@@ -58,8 +58,8 @@ export default function LandingPage() {
               <h3 className="text-[#d4af37] text-xl font-black mb-4">برنامج الفعالية</h3>
               <ul className="space-y-3 text-white/60 font-bold leading-relaxed">
                  <li>• معرض تجاري (Exposition) واتصال B2B.</li>
+                 <li>• ملتقى رواد الأعمال وأصحاب المشاريع.</li>
                  <li>• ورشات وندوات (E-commerce & Digital).</li>
-                 <li>• عشاء اختتامي رسمي يوم 01 ماي.</li>
               </ul>
            </div>
 
@@ -67,7 +67,7 @@ export default function LandingPage() {
               <h3 className="text-[#d4af37] text-xl font-black mb-4">عرض العارضين</h3>
               <ul className="space-y-3 text-white/60 font-bold leading-relaxed">
                  <li>• مساحة عرض مجهزة (Chapiteau).</li>
-                 <li>• الإقامة الكاملة لمدة 4 أيام في الموقع.</li>
+                 <li>• ملتقى رواد الأعمال: ملتقى خاص برواد الأعمال وأصحاب المشاريع لتبادل الخبرات.</li>
                  <li>• الاستفادة من مرافق Palm Garden.</li>
               </ul>
            </div>
