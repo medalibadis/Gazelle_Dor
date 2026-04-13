@@ -2,7 +2,9 @@
 
 const SCRIPT_URLS = {
   visitor: process.env.GOOGLE_SCRIPT_URL_VISITOR,
+  qamis: process.env.GOOGLE_SCRIPT_URL_VISITOR,      // Map 'qamis' to visitor sheet
   conference: process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
+  'e-com': process.env.GOOGLE_SCRIPT_URL_CONFERENCE, // Map 'e-com' to conference sheet
   revision: process.env.GOOGLE_SCRIPT_URL_REVISION,
 };
 
