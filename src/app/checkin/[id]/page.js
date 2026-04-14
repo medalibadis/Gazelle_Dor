@@ -8,7 +8,21 @@ import { getParticipantInfo, markAsPresent } from '../../actions';
 export default function CheckInPage({ params }) {
   const { id } = use(params);
   const searchParams = useSearchParams();
-  const type = searchParams.get('type');
+  
+  // Detect type from URL or Auto-detect from ID prefix
+  const getType = () => {
+    const urlType = searchParams.get('type');
+    if (urlType) return urlType;
+
+    // Detect logic for older QR codes missing the ?type= parameter
+    if (id.startsWith('EVT-')) return 'visitor';
+    if (id.startsWith('FOR-')) return 'forum';
+    if (id.startsWith('REV-')) return 'forum';
+    if (id.startsWith('COM-')) return 'e-com';
+    return null;
+  };
+
+  const type = getType();
   
   const [participant, setParticipant] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,7 +79,7 @@ export default function CheckInPage({ params }) {
         <div className="bg-white/5 p-10 rounded-3xl border border-red-500/30 text-center shadow-2xl max-w-md w-full backdrop-blur-xl">
           <div className="text-5xl mb-4">⚠️</div>
           <h1 className="text-2xl font-black text-red-400 mb-4">فشل في التحقق</h1>
-          <p className="text-white/60 mb-2 font-bold">{error}</p>
+          <p className="text-white/60 mb-2 font-bold">{error === 'URL not found' ? 'رابط قاعدة البيانات غير موجود (Vercel Env)' : error}</p>
           <button onClick={() => window.location.reload()} className="mt-6 w-full py-4 bg-red-500 text-white font-black rounded-2xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/20">
              إعادة المحاولة
           </button>
@@ -74,33 +88,44 @@ export default function CheckInPage({ params }) {
     );
   }
 
+  const getTypeName = (t) => {
+    const names = {
+      visitor: 'زائر',
+      forum: 'ملتقى رواد الأعمال',
+      'e-com': 'ورشات E-com'
+    };
+    return names[t] || 'عام';
+  };
+
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 font-arabic" dir="rtl">
-      {/* Background */}
+      {/* Background with higher priority for brand identity */}
       <div className="absolute inset-0 z-0">
-         <Image src="/qamis-bg.png" alt="BG" fill className="object-cover opacity-30 blur-[4px]" />
-         <div className="absolute inset-0 bg-black/60"></div>
+         <Image src="/hero-bg.png" alt="BG" fill className="object-cover opacity-20 blur-[2px]" />
+         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
       </div>
 
-      <div className="relative z-10 bg-black/60 backdrop-blur-3xl rounded-[2.5rem] p-10 w-full max-w-[480px] shadow-2xl border border-white/10 text-center">
+      <div className="relative z-10 bg-black/40 backdrop-blur-3xl rounded-[2.5rem] p-10 w-full max-w-[480px] shadow-2xl border border-white/10 text-center scale-in">
         <header className="mb-8">
-          <div className="flex justify-center mb-6">
-             <Image src="/lb-logo.png" alt="LB" width={100} height={50} className="object-contain" />
+          <div className="flex justify-center mb-6 scale-110">
+             <div className="relative w-24 h-24">
+                <Image src="/lb-logo.png" alt="LB" fill className="object-contain" />
+             </div>
           </div>
           <h1 className="text-3xl font-black text-white mb-2 tracking-tight">
             تأكيد الحضور (Admin)
           </h1>
           <p className="text-white/40 text-sm font-bold">معرف المشارك: <span className="text-[#d4af37]">{id}</span></p>
-          <div className="mt-3 inline-block px-4 py-1.5 bg-white/5 border border-white/10 rounded-full">
-             <p className="text-[#d4af37] text-xs font-black uppercase">نوع المشاركة: {type || 'عام'}</p>
+          <div className="mt-3 inline-block px-4 py-1.5 bg-[#d4af37]/10 border border-[#d4af37]/20 rounded-full">
+             <p className="text-[#d4af37] text-xs font-black uppercase">الفئة: {getTypeName(type)}</p>
           </div>
         </header>
 
         <div className="space-y-6">
-          <div className="bg-white/5 p-8 rounded-[2rem] border border-white/10 text-right">
+          <div className="bg-white/5 p-8 rounded-[2rem] border border-white/10 text-right group hover:border-[#d4af37]/30 transition-all duration-500">
             <div className="mb-6">
               <span className="block text-xs font-black text-white/40 mb-1">الاسم الكامل</span>
-              <p className="text-2xl font-black text-white">{participant.firstName} {participant.lastName}</p>
+              <p className="text-2xl font-black text-white group-hover:text-[#d4af37] transition-colors">{participant.firstName} {participant.lastName}</p>
             </div>
             <div className="mb-6">
               <span className="block text-xs font-black text-white/40 mb-1">البريد الإلكتروني</span>
@@ -118,17 +143,30 @@ export default function CheckInPage({ params }) {
             <button
               onClick={handleCheckIn}
               disabled={checkingIn}
-              className="w-full py-5 bg-[#d4af37] hover:bg-[#b8952d] text-black rounded-2xl text-xl font-black transition-all shadow-[0_15px_40px_-5px_rgba(212,175,55,0.4)] disabled:opacity-50"
+              className="w-full py-5 bg-[#d4af37] hover:bg-[#b8952d] text-black rounded-2xl text-xl font-black transition-all shadow-[0_15px_40px_-5px_rgba(212,175,55,0.4)] disabled:opacity-50 active:scale-95"
             >
               {checkingIn ? 'جاري التحديث...' : 'تأكيد الحضور الآن'}
             </button>
           ) : (
-            <div className="p-6 bg-green-500/10 border border-green-500/30 rounded-[2rem] animate-fade-in">
-              <p className="text-green-400 text-lg font-black italic">✓ تم تأكيد دخول المشارك!</p>
+            <div className="p-6 bg-green-500/20 border border-green-500/40 rounded-[2rem] animate-pulse">
+              <p className="text-green-400 text-lg font-black font-arabic">✓ تم تأكيد دخول المشارك!</p>
             </div>
           )}
         </div>
       </div>
+
+      <style jsx global>{`
+        @font-face {
+          font-family: 'GE Dinar';
+          src: url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        }
+        body { font-family: 'Cairo', sans-serif; }
+        .scale-in { animation: scaleIn 0.5s ease-out; }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
 }
