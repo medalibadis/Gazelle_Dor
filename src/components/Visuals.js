@@ -52,16 +52,14 @@ export const QamisBackground = () => {
 
 export const RevisionBackground = () => (
   <div className="absolute inset-0 z-0 bg-[#064e3b] overflow-hidden pointer-events-none">
-     <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/50 to-transparent italic opacity-20 text-[20vw] font-black pointer-events-none select-none">
-        FORUM
+     <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/50 to-transparent pointer-events-none select-none">
      </div>
   </div>
 );
 
 export const EComBackground = () => (
   <div className="absolute inset-0 z-0 bg-[#1e1b4b] overflow-hidden pointer-events-none">
-     <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 to-transparent italic opacity-20 text-[15vw] font-black pointer-events-none select-none">
-        E.COM
+     <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 to-transparent pointer-events-none select-none">
      </div>
   </div>
 );
