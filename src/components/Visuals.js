@@ -5,14 +5,14 @@ import React, { useEffect, useState } from 'react';
 export const LBLogo = () => {
   return (
     <div className="flex items-center transition-all hover:scale-[1.02] duration-500 cursor-pointer">
-      <img src="/logob.png" alt="Loving Brothers" className="h-[120px] md:h-[150px] w-auto object-contain drop-shadow-2xl" />
+      <img src="/logob.png" alt="Loving Brothers" className="h-[70px] md:h-[90px] w-auto object-contain drop-shadow-2xl rounded-2xl" />
     </div>
   );
 };
 
 export const AVALogo = () => (
     <div className="flex flex-col items-center">
-       <img src="/ava.png" alt="AVA EXPO" className="h-[180px] md:h-[220px] w-auto object-contain drop-shadow-2xl" />
+       <img src="/ava.png" alt="AVA EXPO" className="h-[250px] md:h-[320px] w-auto object-cover md:object-contain drop-shadow-2xl rounded-3xl" />
     </div>
 );
 

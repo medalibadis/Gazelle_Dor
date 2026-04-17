@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #0f172a;
+  --bg-color: #0c0a09;
   --card-bg: #1e293b;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -17,10 +17,12 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
+  margin: 0;
+  padding: 0;
 }
 
 @layer base {
   body {
-    @apply bg-brand-bg text-brand-primary min-h-screen flex items-center justify-center p-5;
+    @apply bg-[#0c0a09] text-white min-h-screen w-full;
   }
 }
