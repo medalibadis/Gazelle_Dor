@@ -48,24 +48,38 @@ export async function registerParticipant(formData, type) {
 
 export async function getParticipantInfo(id, type) {
   try {
-    const GOOGLE_SCRIPT_URL = getUrl(type);
+    const primaryUrl = getUrl(type);
+    const urlsToTry = primaryUrl ? [primaryUrl] : [];
+    
+    const allUrls = [
+      process.env.GOOGLE_SCRIPT_URL_VISITOR,
+      process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
+      process.env.GOOGLE_SCRIPT_URL_REVISION
+    ].filter(Boolean);
 
-    if (!GOOGLE_SCRIPT_URL) return { success: false, error: 'URL not found' };
-
-    const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}`, {
-      method: 'GET',
-      cache: 'no-store'
-    });
-
-    const result = await response.text();
-
-    if (!response.ok) {
-      return { success: false, error: result || 'Failed to fetch participant info' };
+    for (const url of allUrls) {
+      if (!urlsToTry.includes(url)) urlsToTry.push(url);
     }
 
-    if (result === "Not Found") return { success: false, error: 'Participant not found in sheet.' };
+    if (urlsToTry.length === 0) return { success: false, error: 'URL not found' };
 
-    return { success: true, data: JSON.parse(result) };
+    for (const url of urlsToTry) {
+      try {
+        const response = await fetch(`${url}?id=${id}`, {
+          method: 'GET',
+          cache: 'no-store'
+        });
+        const result = await response.text();
+
+        if (response.ok && result !== "Not Found" && !result.startsWith("ERROR")) {
+          return { success: true, data: JSON.parse(result) };
+        }
+      } catch (err) {
+        console.error(err); // Try next URL on error
+      }
+    }
+
+    return { success: false, error: 'Participant not found in sheet.' };
   } catch (error) {
     return { success: false, error: error.message || 'Network error fetching data.' };
   }
@@ -73,20 +87,44 @@ export async function getParticipantInfo(id, type) {
 
 export async function markAsPresent(id, type) {
   try {
-    const GOOGLE_SCRIPT_URL = getUrl(type);
+    const primaryUrl = getUrl(type);
+    const urlsToTry = primaryUrl ? [primaryUrl] : [];
+    
+    const allUrls = [
+      process.env.GOOGLE_SCRIPT_URL_VISITOR,
+      process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
+      process.env.GOOGLE_SCRIPT_URL_REVISION
+    ].filter(Boolean);
 
-    const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${id}&action=update`, {
-      method: 'GET',
-      cache: 'no-store'
-    });
-
-    const result = await response.text();
-
-    if (!response.ok || result !== "Updated") {
-      return { success: false, error: result || 'Failed to update status' };
+    for (const url of allUrls) {
+      if (!urlsToTry.includes(url)) urlsToTry.push(url);
     }
 
-    return { success: true };
+    if (urlsToTry.length === 0) return { success: false, error: 'URL not found' };
+
+    let lastError = "Participant not found in sheet.";
+
+    for (const url of urlsToTry) {
+      try {
+        const response = await fetch(`${url}?id=${id}&action=update`, {
+          method: 'GET',
+          cache: 'no-store'
+        });
+        const result = await response.text();
+
+        if (response.ok && result === "Updated") {
+          return { success: true };
+        } else if (response.ok && result === "Not Found") {
+          continue; // Try next URL
+        } else {
+          lastError = result; // Keep track of latest Google script error
+        }
+      } catch (err) {
+        lastError = err.message;
+      }
+    }
+
+    return { success: false, error: lastError || 'Failed to update status' };
   } catch (error) {
     return { success: false, error: error.message || 'Network error updating status.' };
   }
