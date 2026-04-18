@@ -5,13 +5,6 @@ import { LBLogo, QamisBackground } from '../../components/Visuals';
 
 const categories = [
   {
-    id: 'forum',
-    title: 'ملتقى رواد الأعمال',
-    description: 'ملتقى خاص برواد الأعمال وأصحاب المشاريع لتبادل الخبرات',
-    href: '/register/forum',
-    accent: 'emerald'
-  },
-  {
     id: 'ecom',
     title: 'ورشات E.com',
     description: 'ورشات التجارة الإلكترونية والعمل الحر',
@@ -32,7 +25,7 @@ export default function SelectPage() {
     <div className="min-h-screen bg-[#0c0a09] relative overflow-hidden flex flex-col items-center py-10 px-4 font-arabic text-white" dir="rtl">
       <QamisBackground />
       
-      <div className="relative z-10 w-full max-w-6xl flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-5xl flex flex-col items-center">
         <header className="mb-12">
           <LBLogo />
         </header>
@@ -41,7 +34,7 @@ export default function SelectPage() {
           اختر فئة التسجيل
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           {categories.map((category) => (
             <Link 
               key={category.id}

@@ -8,7 +8,7 @@ export default function LandingPage() {
       
       {/* Flyer Image */}
       <img 
-        src="/bg-highres.png" 
+        src="/best-bg.png" 
         alt="معرض القميص - AVA EXPO" 
         className="w-full h-auto max-w-4xl shadow-2xl"
       />
