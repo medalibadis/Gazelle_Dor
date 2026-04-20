@@ -9,14 +9,36 @@ const categories = [
     title: 'ورشات E.com',
     description: 'ورشات التجارة الإلكترونية والعمل الحر',
     href: '/register/e-com',
-    accent: 'purple'
+    accent: 'purple',
+    price: '3500 DA',
+    priceColor: 'text-[#d4af37]'
   },
   {
     id: 'qamis',
     title: 'معرض القميص',
     description: 'عرض القميص العربي الطبعة الثانية',
     href: '/register/qamis',
-    accent: 'amber'
+    accent: 'amber',
+    price: 'مجاني',
+    priceColor: 'text-green-400'
+  },
+  {
+    id: 'ecom-conf',
+    title: 'مؤتمر E.com',
+    description: 'المؤتمر الشامل للتجارة الإلكترونية',
+    href: '/register/ecom-conf',
+    accent: 'blue',
+    price: 'مجاني',
+    priceColor: 'text-green-400'
+  },
+  {
+    id: 'dinner',
+    title: 'عشاء رجال الأعمال',
+    description: 'عشاء عمل وتواصل وحفل ختامي',
+    href: '/register/dinner',
+    accent: 'emerald',
+    price: '13500 DA',
+    priceColor: 'text-[#d4af37]'
   }
 ];
 
@@ -39,14 +61,18 @@ export default function SelectPage() {
             <Link 
               key={category.id}
               href={category.href}
-              className="group relative bg-white/5 backdrop-blur-3xl rounded-[3rem] p-10 border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:border-[#d4af37]/50 flex flex-col items-center text-center overflow-hidden"
+              className="group relative bg-white/5 backdrop-blur-3xl rounded-[3rem] p-8 md:p-10 border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:border-[#d4af37]/50 flex flex-col items-center text-center overflow-hidden"
             >
               <h2 className="text-3xl font-black text-white mb-4 group-hover:text-[#d4af37] transition-colors">
                 {category.title}
               </h2>
-              <p className="text-white/60 font-bold leading-relaxed mb-8">
+              <p className="text-white/60 font-bold leading-relaxed mb-6">
                 {category.description}
               </p>
+              
+              <div className={`text-2xl font-black mb-8 ${category.priceColor} bg-black/30 px-6 py-2 rounded-full border border-white/5`}>
+                {category.price}
+              </div>
               
               <div className="mt-auto px-8 py-3 bg-white/10 rounded-full text-sm font-black tracking-widest uppercase transition-all duration-500 group-hover:bg-[#d4af37] group-hover:text-black">
                 سجل الآن

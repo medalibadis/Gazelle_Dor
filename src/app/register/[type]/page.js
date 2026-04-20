@@ -10,20 +10,30 @@ const themeMap = {
   qamis: {
     title: 'معرض القميص',
     subtitle: 'سجل حضورك في المعرض العربي للقميص',
-    accent: '#d4af37', // Gold
-    bg: <QamisBackground />
+    accent: '#FBBF24', // Amber
+    bg: <QamisBackground />,
+    price: 'مجاني'
   },
   'e-com': {
     title: 'ورشات E.com',
     subtitle: 'انضم لخبراء التجارة الإلكترونية',
-    accent: '#8b5cf6', // Purple
-    bg: <EComBackground />
+    accent: '#a855f7', // Purple
+    bg: <EComBackground />,
+    price: '3500 DA'
   },
-  forum: {
-    title: 'ملتقى رواد الأعمال',
-    subtitle: 'سجل في ملتقى رواد الأعمال وأصحاب المشاريع',
+  'ecom-conf': {
+    title: 'مؤتمر E.com',
+    subtitle: 'سجل حضورك في المؤتمر',
+    accent: '#3b82f6', // Blue
+    bg: <EComBackground />,
+    price: 'مجاني'
+  },
+  dinner: {
+    title: 'عشاء رجال الأعمال',
+    subtitle: 'سجل لحضور عشاء وحفل الختام',
     accent: '#10b981', // Emerald
-    bg: <RevisionBackground />
+    bg: <RevisionBackground />,
+    price: '13500 DA'
   }
 };
 
@@ -77,7 +87,16 @@ export default function RegisterPage() {
 
         <div className="text-center mb-8 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl font-black mb-2 drop-shadow-lg">استمارة التسجيل</h1>
-          <p className="text-xl font-bold" style={{ color: theme.accent }}>{theme.title}</p>
+          <p className="text-xl font-bold mb-4" style={{ color: theme.accent }}>{theme.title}</p>
+          
+          {theme.price && (
+            <div className={`inline-block px-6 py-2 rounded-full border ${theme.price.includes('مجاني') ? 'bg-green-500/20 border-green-500/50 text-green-400' : 'bg-red-500/20 border-red-500/50 text-red-500 animate-pulse'}`}>
+              <span className="font-black text-lg">
+                {theme.price.includes('مجاني') ? 'السعر: ' : 'هام! رسوم الدخول: '}
+                {theme.price}
+              </span>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="w-full bg-white/5 backdrop-blur-3xl p-8 md:p-10 rounded-[3rem] border border-white/10 space-y-6 shadow-2xl animate-fade-in">

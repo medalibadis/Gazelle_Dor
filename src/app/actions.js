@@ -2,11 +2,11 @@
 
 const SCRIPT_URLS = {
   visitor: process.env.GOOGLE_SCRIPT_URL_VISITOR,
-  qamis: process.env.GOOGLE_SCRIPT_URL_VISITOR,      // Map 'qamis' to visitor sheet
+  qamis: process.env.GOOGLE_SCRIPT_URL_VISITOR,
   conference: process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
-  'e-com': process.env.GOOGLE_SCRIPT_URL_CONFERENCE, // Map 'e-com' to conference sheet
-  revision: process.env.GOOGLE_SCRIPT_URL_REVISION,
-  forum: process.env.GOOGLE_SCRIPT_URL_REVISION,    // Map Entrepreneurs Forum to the revision sheet
+  'e-com': process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
+  'ecom-conf': process.env.GOOGLE_SCRIPT_URL_ECOM_CONF, // Setup dedicated sheet for Ecom Conference
+  dinner: process.env.GOOGLE_SCRIPT_URL_DINNER,         // Setup dedicated sheet for Businessmen Dinner
 };
 
 function getUrl(type) {
@@ -54,7 +54,8 @@ export async function getParticipantInfo(id, type) {
     const allUrls = [
       process.env.GOOGLE_SCRIPT_URL_VISITOR,
       process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
-      process.env.GOOGLE_SCRIPT_URL_REVISION
+      process.env.GOOGLE_SCRIPT_URL_ECOM_CONF,
+      process.env.GOOGLE_SCRIPT_URL_DINNER
     ].filter(Boolean);
 
     for (const url of allUrls) {
@@ -93,7 +94,8 @@ export async function markAsPresent(id, type) {
     const allUrls = [
       process.env.GOOGLE_SCRIPT_URL_VISITOR,
       process.env.GOOGLE_SCRIPT_URL_CONFERENCE,
-      process.env.GOOGLE_SCRIPT_URL_REVISION
+      process.env.GOOGLE_SCRIPT_URL_ECOM_CONF,
+      process.env.GOOGLE_SCRIPT_URL_DINNER
     ].filter(Boolean);
 
     for (const url of allUrls) {
