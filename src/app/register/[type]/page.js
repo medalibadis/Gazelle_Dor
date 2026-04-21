@@ -47,6 +47,7 @@ export default function RegisterPage() {
     lastName: '',
     email: '',
     phone: '',
+    category: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -154,6 +155,24 @@ export default function RegisterPage() {
               dir="ltr"
             />
           </div>
+
+          {type === 'e-com' && (
+            <div className="space-y-2">
+              <label className="block text-lg font-bold mr-2 text-white/80">التخصص / الورشة</label>
+              <select
+                required
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full bg-white/5 border border-white/10 rounded-3xl px-6 py-5 text-xl font-bold focus:outline-none focus:border-[#a855f7] transition-all text-white appearance-none"
+              >
+                <option value="" disabled className="text-black">-- اختر التخصص --</option>
+                <option value="Omar fekhar marketing digital 29/04/2026" className="text-black">Omar fekhar marketing digital 29/04/2026</option>
+                <option value="Madjid sedjal management des projets 30/04/2026" className="text-black">Madjid sedjal management des projets 30/04/2026</option>
+                <option value="Fethi boukhros E-commerce 01/05/2026" className="text-black">Fethi boukhros E-commerce 01/05/2026</option>
+              </select>
+            </div>
+          )}
 
           {message.text && (
             <div className={`p-5 rounded-2xl text-center font-black text-lg animate-pulse ${
