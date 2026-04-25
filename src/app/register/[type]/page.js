@@ -14,28 +14,15 @@ const themeMap = {
     bg: <QamisBackground />,
     price: 'مجاني'
   },
-  'e-com': {
-    title: 'ورشات E.com',
-    subtitle: 'انضم لخبراء التجارة الإلكترونية',
-    accent: '#a855f7', // Purple
-    bg: <EComBackground />,
-    price: '3500 DA'
-  },
   'ecom-conf': {
     title: 'مؤتمر E.com',
     subtitle: 'سجل حضورك في المؤتمر',
     accent: '#3b82f6', // Blue
     bg: <EComBackground />,
     price: 'مجاني'
-  },
-  dinner: {
-    title: 'عشاء رجال الأعمال',
-    subtitle: 'سجل لحضور عشاء وحفل الختام',
-    accent: '#10b981', // Emerald
-    bg: <RevisionBackground />,
-    price: '13500 DA'
   }
 };
+
 
 export default function RegisterPage() {
   const { type } = useParams();

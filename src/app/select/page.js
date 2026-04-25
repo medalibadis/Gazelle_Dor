@@ -5,15 +5,6 @@ import { LBLogo, QamisBackground } from '../../components/Visuals';
 
 const categories = [
   {
-    id: 'ecom',
-    title: 'ورشات E.com',
-    description: 'ورشات التجارة الإلكترونية والعمل الحر',
-    href: '/register/e-com',
-    accent: 'purple',
-    price: '3500 DA',
-    priceColor: 'text-[#d4af37]'
-  },
-  {
     id: 'qamis',
     title: 'معرض القميص',
     description: 'عرض القميص العربي الطبعة الثانية',
@@ -30,17 +21,9 @@ const categories = [
     accent: 'blue',
     price: 'مجاني',
     priceColor: 'text-green-400'
-  },
-  {
-    id: 'dinner',
-    title: 'عشاء رجال الأعمال',
-    description: 'عشاء عمل وتواصل وحفل ختامي',
-    href: '/register/dinner',
-    accent: 'emerald',
-    price: '13500 DA',
-    priceColor: 'text-[#d4af37]'
   }
 ];
+
 
 export default function SelectPage() {
   return (

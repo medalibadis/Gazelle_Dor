@@ -18,7 +18,6 @@ export default function CheckInPage({ params }) {
     if (id.startsWith('EVT-')) return 'visitor';
     if (id.startsWith('FOR-')) return 'forum';
     if (id.startsWith('REV-')) return 'forum';
-    if (id.startsWith('COM-')) return 'e-com';
     return null;
   };
 
@@ -91,11 +90,11 @@ export default function CheckInPage({ params }) {
   const getTypeName = (t) => {
     const names = {
       visitor: 'زائر',
-      forum: 'ملتقى رواد الأعمال',
-      'e-com': 'ورشات E-com'
+      forum: 'ملتقى رواد الأعمال'
     };
     return names[t] || 'عام';
   };
+
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 font-arabic" dir="rtl">
